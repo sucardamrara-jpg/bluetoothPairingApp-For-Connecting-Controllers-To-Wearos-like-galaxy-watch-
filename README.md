@@ -9,4 +9,4 @@ i needed a way to connect my joycon to my galaxy watch 4. but the built in bluet
 
 # IMPORTANT NOTES!!!!!
 
-the app has no logo so it will use the default one on your smartwatch(in galaxy watches it is a logo of a watch with The letter "i" in his screen) 
+the app has no logo so it will use the default one on your smartwatch(in galaxy watches its usually a logo of a watch with The letter "i" in his screen) 
