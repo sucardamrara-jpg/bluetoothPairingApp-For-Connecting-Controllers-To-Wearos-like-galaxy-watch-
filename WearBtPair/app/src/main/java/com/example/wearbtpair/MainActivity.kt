@@ -1,10 +1,8 @@
 package com.example.wearbtpair
 
-import android.Manifest
 import android.app.Activity
 import android.bluetooth.*
 import android.content.*
-import android.content.pm.PackageManager
 import android.os.*
 import android.provider.Settings
 import android.view.Gravity
@@ -13,6 +11,7 @@ import androidx.core.app.ActivityCompat
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
+import java.lang.reflect.Method
 
 class MainActivity : Activity() {
 
@@ -34,6 +33,7 @@ class MainActivity : Activity() {
 
         list.adapter = adapter
         list.setOnItemClickListener { _, _, i, _ -> pair(devices[i]) }
+        list.setOnItemLongClickListener { _, _, i, _ -> unpair(devices[i]); true }
 
         registerReceiver(rx, IntentFilter(BluetoothDevice.ACTION_FOUND))
         registerReceiver(rx, IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED))
@@ -128,6 +128,19 @@ class MainActivity : Activity() {
             log("createBond() -> ${d.createBond()}")
         } catch (e: Exception) {
             log("Pair error: ${e.message}")
+        }
+    }
+
+    // ================= UNPAIR =================
+
+    private fun unpair(d: BluetoothDevice) {
+        log("Unpairing: ${d.name}")
+        try {
+            val m: Method = d.javaClass.getMethod("removeBond")
+            val result = m.invoke(d) as Boolean
+            log("removeBond() -> $result")
+        } catch (e: Exception) {
+            log("Unpair failed: ${e.message}")
         }
     }
 
@@ -250,20 +263,6 @@ class MainActivity : Activity() {
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(rx)
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.BLUETOOTH_SCAN
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
-        }
         bt.cancelDiscovery()
     }
 }
