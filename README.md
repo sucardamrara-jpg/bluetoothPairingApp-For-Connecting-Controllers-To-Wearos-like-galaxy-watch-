@@ -1,0 +1,2 @@
+# bluetoothPairingApp-For-Connecting-Controllers-To-Wearos-like-galaxy-watch-
+i needed a way to connect my joycon to my galaxy watch 4. but the built in bluetooth Setting app hides controllers so i ask ChatGPT(i was lazy okay? dont judge) to make this app. i had to patch some of his mistakes but it works perfectly fine(the app does not have a logo [it uses the default one on the watch]). will be added later if ill not forget
